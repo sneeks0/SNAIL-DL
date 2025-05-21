@@ -1,6 +1,130 @@
-<!doctype html>
-<html>
-  <body>
-    <p>This is a blank webpage.</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TF2 Soldier Teleports Bread</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the bread animation */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+            10% { opacity: 1; transform: scale(1) translateY(0); }
+            90% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0.5) translateY(-20px); }
+        }
+
+        .bread-item {
+            position: absolute;
+            animation: fadeInOut 3s ease-out forwards; /* Bread appears and fades out */
+            font-size: 3rem; /* Large emoji size */
+            pointer-events: none; /* Allow clicks to pass through bread */
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)); /* Add a subtle shadow */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 640px) {
+            .bread-item {
+                font-size: 2rem; /* Smaller emoji on mobile */
+            }
+            .text-5xl {
+                font-size: 3rem; /* Adjust title size */
+            }
+            .text-3xl {
+                font-size: 1.75rem; /* Adjust quote size */
+            }
+            .text-2xl {
+                font-size: 1.25rem; /* Adjust counter size */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-red-700 to-red-900 min-h-screen flex items-center justify-center p-4 font-sans text-white">
+    <div class="bg-gray-800 bg-opacity-90 p-8 rounded-xl shadow-2xl max-w-2xl w-full text-center border-4 border-yellow-400">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-yellow-400 tracking-wider">
+            TF2 Bread Teleporter
+        </h1>
+
+        <p class="text-xl md:text-3xl italic mb-8 text-gray-300">
+            "I have done nothing but teleport bread for three days."
+        </p>
+
+        <div class="bg-gray-700 p-4 rounded-lg mb-8 shadow-inner border border-gray-600">
+            <p class="text-2xl md:text-3xl font-bold text-yellow-300">
+                Bread Teleported: <span id="breadCount">0</span>
+            </p>
+        </div>
+
+        <button id="teleportButton" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 mb-8 text-2xl md:text-3xl border-2 border-yellow-300">
+            Teleport Bread!
+        </button>
+
+        <div id="breadContainer" class="relative w-full h-64 md:h-80 bg-gray-700 bg-opacity-70 rounded-lg overflow-hidden border-2 border-gray-600 shadow-inner">
+            </div>
+    </div>
+
+    <script>
+        // Get references to the HTML elements
+        const teleportButton = document.getElementById('teleportButton');
+        const breadCountDisplay = document.getElementById('breadCount');
+        const breadContainer = document.getElementById('breadContainer');
+
+        // Initialize bread count
+        let breadCount = 0;
+
+        // Array of different bread emojis to choose from
+        const breadEmojis = ['🍞', '🥖', '🥨', '🥐', '🥯', '🥞']; // Added more variety
+
+        /**
+         * Function to teleport a piece of bread.
+         * Creates a new bread element, positions it randomly,
+         * adds it to the container, and makes it fade out.
+         */
+        function teleportBread() {
+            // Increment the bread count and update the display
+            breadCount++;
+            breadCountDisplay.textContent = breadCount;
+
+            // Create a new div element for the bread
+            const breadItem = document.createElement('div');
+            breadItem.classList.add('bread-item'); // Apply animation and styling
+
+            // Select a random bread emoji
+            const randomEmoji = breadEmojis[Math.floor(Math.random() * breadEmojis.length)];
+            breadItem.textContent = randomEmoji;
+
+            // Get container dimensions to position bread randomly
+            const containerWidth = breadContainer.offsetWidth;
+            const containerHeight = breadContainer.offsetHeight;
+
+            // Calculate random positions within the container, ensuring bread stays visible
+            const randomX = Math.random() * (containerWidth - 50); // -50 to prevent overflow
+            const randomY = Math.random() * (containerHeight - 50); // -50 to prevent overflow
+
+            breadItem.style.left = `${randomX}px`;
+            breadItem.style.top = `${randomY}px`;
+            breadItem.style.transform = `rotate(${Math.random() * 360}deg)`; // Random rotation
+
+            // Add the bread element to the container
+            breadContainer.appendChild(breadItem);
+
+            // Remove the bread element after its animation finishes (3 seconds)
+            setTimeout(() => {
+                breadItem.remove();
+            }, 3000);
+        }
+
+        // Add event listener to the button to call teleportBread function on click
+        teleportButton.addEventListener('click', teleportBread);
+
+        // Optional: Trigger initial bread teleportation on load for a lively start
+        window.onload = () => {
+            // You can add a few initial bread pieces here if you like
+            // for (let i = 0; i < 3; i++) {
+            //     teleportBread();
+            // }
+        };
+    </script>
+</body>
 </html>
+
