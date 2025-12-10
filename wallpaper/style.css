@@ -1,98 +1,104 @@
+/* ==================================== */
+/* 🖼️ BASE STYLING (The Black Canvas)    */
+/* ==================================== */
 body {
-  background-color: #0d1a26;
-  overflow: hidden;
-  margin: 0;
-  height: 100vh;
+    /* Sets the background to solid black */
+    background-color: #000000; 
+    
+    /* Essential viewport settings */
+    overflow: hidden; 
+    margin: 0;
+    height: 100vh;
 }
 
+/* ====================================== */
+/* ❄️ SNOW OVERLAY CONTAINER AND LAYERS   */
+/* ====================================== */
 .snow-container {
-  /* This container will hold all the snow layers */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999; 
+    pointer-events: none; /* Allows clicking through the snow */
+
+    /* FARTHEST SNOW LAYER (Smallest, Slowest, Faintest - applied directly to container) */
+    background-image:
+        radial-gradient(0.5px 0.5px at 15% 15%, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(0.5px 0.5px at 55% 55%, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(0.5px 0.5px at 85% 25%, rgba(255, 255, 255, 0.3), transparent);
+
+    background-size: 30px 30px; 
+    animation: fall 40s linear infinite; /* Slowest fall */
 }
 
-/* 1. CLOSEST SNOW LAYER (Largest, Fastest, Most Visible) */
+/* 1. CLOSEST SNOW LAYER (Largest, Fastest, Most Visible - ::before pseudo-element) */
 .snow-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Using radial-gradient for larger, distinct flakes */
-  background-image:
-    radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1.5px 1.5px at 30% 20%, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1.5px 1.5px at 70% 80%, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.9), transparent);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background-image:
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.5px 1.5px at 30% 20%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.5px 1.5px at 70% 80%, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.9), transparent);
 
-  background-size: 80px 80px; /* Large pattern repeat */
-  opacity: 0.8;
-  animation:
-    fall 15s linear infinite,  /* Fast vertical fall */
-    drift 10s ease-in-out infinite alternate; /* Slower horizontal drift */
+    background-size: 80px 80px; 
+    opacity: 0.8;
+    animation:
+        fall 15s linear infinite,  /* Fastest fall */
+        drift 10s ease-in-out infinite alternate; /* Horizontal drift */
 }
 
-/* 2. MIDDLE SNOW LAYER (Medium Size, Medium Speed, Medium Density) */
+/* 2. MIDDLE SNOW LAYER (Medium Size, Medium Speed, Medium Density - ::after pseudo-element) */
 .snow-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Using radial-gradient for smaller, more subtle flakes */
-  background-image:
-    radial-gradient(0.5px 0.5px at 5% 5%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 25% 45%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(0.5px 0.5px at 45% 15%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 65% 75%, rgba(255, 255, 255, 0.4), transparent),
-    radial-gradient(0.5px 0.5px at 85% 95%, rgba(255, 255, 255, 0.6), transparent);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background-image:
+        radial-gradient(0.5px 0.5px at 5% 5%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 25% 45%, rgba(255, 255, 255, 0.5), transparent),
+        radial-gradient(0.5px 0.5px at 45% 15%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 65% 75%, rgba(255, 255, 255, 0.4), transparent),
+        radial-gradient(0.5px 0.5px at 85% 95%, rgba(255, 255, 255, 0.6), transparent);
 
-  background-size: 50px 50px; /* Smaller pattern repeat */
-  opacity: 0.6;
-  animation:
-    fall 25s linear infinite, /* Medium vertical fall */
-    drift 15s ease-in-out infinite alternate-reverse; /* Faster horizontal drift in reverse direction */
+    background-size: 50px 50px; 
+    opacity: 0.6;
+    animation:
+        fall 25s linear infinite, /* Medium fall */
+        drift 15s ease-in-out infinite alternate-reverse; 
 }
 
-/* The Deepest, Farthest layer can be placed on the main container itself */
-.snow-container {
-  /* FARTHEST SNOW LAYER (Smallest, Slowest, Faintest) */
-  background-image:
-    radial-gradient(0.5px 0.5px at 15% 15%, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(0.5px 0.5px at 55% 55%, rgba(255, 255, 255, 0.3), transparent),
-    radial-gradient(0.5px 0.5px at 85% 25%, rgba(255, 255, 255, 0.3), transparent);
+/* ====================================== */
+/* 🔑 KEYFRAMES (Animation Definitions)    */
+/* ====================================== */
 
-  background-size: 30px 30px; /* Smallest pattern repeat */
-  animation: fall 40s linear infinite; /* Slowest vertical fall */
-}
-
-
-/* Keyframe animation for the falling motion (Vertical) */
+/* Vertical falling motion */
 @keyframes fall {
-  from {
-    background-position: 0% 0%;
-  }
-  to {
-    /* Use 100vh to ensure it falls the entire viewport height */
-    background-position: 0% 100vh;
-  }
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: 0% 100vh;
+    }
 }
 
-/* Keyframe animation for the drifting/wobbling motion (Horizontal) */
+/* Horizontal drifting motion */
 @keyframes drift {
-  from {
-    background-position-x: 0%;
-  }
-  to {
-    /* Move background slightly to the side to simulate wind */
-    background-position-x: 100px; 
-  }
+    from {
+        background-position-x: 0%;
+    }
+    to {
+        background-position-x: 100px; /* Moves flakes 100px horizontally */
+    }
 }
