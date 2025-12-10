@@ -1,14 +1,24 @@
 /* ==================================== */
-/* 🖼️ BASE STYLING (The Black Canvas)    */
+/* 🖼️ BASE STYLING (Wallpaper Background + Fallback) */
 /* ==================================== */
 body {
-    /* Sets the background to solid black */
-    background-color: #000000; 
-    
+    /* Black fallback + wallpaper image */
+    background: #000 url("wallpaper.jpg") no-repeat center center fixed;
+    background-size: cover;
+
     /* Essential viewport settings */
-    overflow: hidden; 
+    overflow: hidden;
     margin: 0;
     height: 100vh;
+}
+
+/* Optional: Darken the wallpaper for better snow visibility */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); /* Adjust opacity as needed */
+    z-index: 0; /* Behind snow, above wallpaper */
 }
 
 /* ====================================== */
@@ -21,19 +31,19 @@ body {
     width: 100%;
     height: 100%;
     z-index: 9999; 
-    pointer-events: none; /* Allows clicking through the snow */
+    pointer-events: none;
 
-    /* FARTHEST SNOW LAYER (Smallest, Slowest, Faintest - applied directly to container) */
+    /* Farthest layer */
     background-image:
         radial-gradient(0.5px 0.5px at 15% 15%, rgba(255, 255, 255, 0.3), transparent),
         radial-gradient(0.5px 0.5px at 55% 55%, rgba(255, 255, 255, 0.3), transparent),
         radial-gradient(0.5px 0.5px at 85% 25%, rgba(255, 255, 255, 0.3), transparent);
 
-    background-size: 30px 30px; 
-    animation: fall 40s linear infinite; /* Slowest fall */
+    background-size: 30px 30px;
+    animation: fall 40s linear infinite;
 }
 
-/* 1. CLOSEST SNOW LAYER (Largest, Fastest, Most Visible - ::before pseudo-element) */
+/* Closest layer */
 .snow-container::before {
     content: '';
     position: absolute;
@@ -49,14 +59,14 @@ body {
         radial-gradient(1.5px 1.5px at 70% 80%, rgba(255, 255, 255, 0.7), transparent),
         radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.9), transparent);
 
-    background-size: 80px 80px; 
+    background-size: 80px 80px;
     opacity: 0.8;
     animation:
-        fall 15s linear infinite,  /* Fastest fall */
-        drift 10s ease-in-out infinite alternate; /* Horizontal drift */
+        fall 15s linear infinite,
+        drift 10s ease-in-out infinite alternate;
 }
 
-/* 2. MIDDLE SNOW LAYER (Medium Size, Medium Speed, Medium Density - ::after pseudo-element) */
+/* Middle layer */
 .snow-container::after {
     content: '';
     position: absolute;
@@ -72,33 +82,23 @@ body {
         radial-gradient(1px 1px at 65% 75%, rgba(255, 255, 255, 0.4), transparent),
         radial-gradient(0.5px 0.5px at 85% 95%, rgba(255, 255, 255, 0.6), transparent);
 
-    background-size: 50px 50px; 
+    background-size: 50px 50px;
     opacity: 0.6;
     animation:
-        fall 25s linear infinite, /* Medium fall */
-        drift 15s ease-in-out infinite alternate-reverse; 
+        fall 25s linear infinite,
+        drift 15s ease-in-out infinite alternate-reverse;
 }
 
 /* ====================================== */
 /* 🔑 KEYFRAMES (Animation Definitions)    */
 /* ====================================== */
 
-/* Vertical falling motion */
 @keyframes fall {
-    from {
-        background-position: 0% 0%;
-    }
-    to {
-        background-position: 0% 100vh;
-    }
+    from { background-position: 0% 0%; }
+    to   { background-position: 0% 100vh; }
 }
 
-/* Horizontal drifting motion */
 @keyframes drift {
-    from {
-        background-position-x: 0%;
-    }
-    to {
-        background-position-x: 100px; /* Moves flakes 100px horizontally */
-    }
+    from { background-position-x: 0%; }
+    to   { background-position-x: 100px; }
 }
